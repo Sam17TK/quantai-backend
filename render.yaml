@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: quantai-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_ORIGINS
+        value: '["*"]'
+      - key: MC_PATHS
+        value: "2000"   # reduce on free tier (512 MB RAM)
+      - key: PYTHON_VERSION
+        value: "3.11.0"
