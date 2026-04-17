@@ -1,6 +1,6 @@
 """
 config.py — Central configuration for QuantAI Backend.
-All constants are derived from the paper unless noted otherwise.
+Optimized for Render Free Tier (512MB RAM).
 """
 from pydantic_settings import BaseSettings
 from pydantic import Field
@@ -11,13 +11,13 @@ class Settings(BaseSettings):
     # ── App ──────────────────────────────────────────────────────────────────
     app_name: str = "QuantAI Stock Analysis API"
     app_version: str = "1.0.0"
-    debug: bool = False
+    debug: bool = True  # Set to True to see detailed logs in Render
 
     # ── CORS ─────────────────────────────────────────────────────────────────
     allowed_origins: List[str] = ["*"]
 
     # ── LSTM (Section V — Paper) ──────────────────────────────────────────────
-    lstm_lookback: int = 60          # T = 60 trading days (ablation optimum)
+    lstm_lookback: int = 60          # T = 60 trading days
     lstm_forecast_horizon: int = 7   # 7-day forecast
     lstm_layer1_units: int = 256
     lstm_layer2_units: int = 128
@@ -32,7 +32,8 @@ class Settings(BaseSettings):
     lstm_l2_decay: float = 1e-5
 
     # ── Monte Carlo (Section VII — Paper) ────────────────────────────────────
-    mc_paths: int = 10_000
+    # CRITICAL: Reduced from 10,000 to 500-1,000 to prevent OOM Crashes on Render
+    mc_paths: int = 500 
     mc_mean_reversion_lambda: float = 0.05
     mc_student_t_fraction: float = 0.05   # 5% fat-tail draws
     mc_student_t_df: int = 5
@@ -59,19 +60,14 @@ class Settings(BaseSettings):
 
     # ── Coverage Universe (Section XI.B) ─────────────────────────────────────
     coverage_universe: List[str] = [
-        # Technology (12)
         "AAPL","MSFT","NVDA","GOOGL","META","ORCL","ADBE","CRM","AMD","INTC","QCOM","TXN",
-        # Healthcare (10)
         "JNJ","PFE","UNH","ABBV","MRK","TMO","ABT","DHR","BMY","AMGN",
-        # Financials (10)
         "JPM","BAC","GS","MS","WFC","C","BLK","AXP","SCHW","USB",
-        # Consumer Discretionary (9)
         "AMZN","TSLA","NKE","MCD","HD","SBUX","TGT","LOW","BKNG",
-        # Energy (9)
         "XOM","CVX","COP","SLB","OXY","EOG","MPC","PSX","VLO",
     ]
 
-    # ── GICS Sector ETFs for cascade (Section VI.F) ──────────────────────────
+    # ── GICS Sector ETFs for cascade ─────────────────────────────────────────
     sector_etfs: Dict[str, str] = {
         "Technology":             "XLK",
         "Healthcare":             "XLV",
@@ -86,7 +82,6 @@ class Settings(BaseSettings):
         "Communication Services": "XLC",
     }
 
-    # Ticker → Sector mapping (subset of universe)
     ticker_sector: Dict[str, str] = {
         "AAPL":"Technology","MSFT":"Technology","NVDA":"Technology",
         "GOOGL":"Technology","META":"Technology","ORCL":"Technology",
@@ -108,12 +103,14 @@ class Settings(BaseSettings):
     }
 
     # ── News / Sentiment ──────────────────────────────────────────────────────
-    news_cache_ttl_seconds: int = 900    # 15 min
-    prediction_cache_ttl_seconds: int = 300  # 5 min market hours
+    news_cache_ttl_seconds: int = 900
+    prediction_cache_ttl_seconds: int = 300
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    model_config = {
+        "env_file": ".env",
+        "env_file_encoding": "utf-8",
+        "extra": "ignore"
+    }
 
 
 settings = Settings()
