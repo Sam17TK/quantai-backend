@@ -1,25 +1,26 @@
-# ── Web Framework
+# ── Web Framework ────────────────────────────────────────────────────────────
 fastapi==0.111.0
 uvicorn[standard]==0.30.1
 python-multipart==0.0.9
 websockets==12.0
 
-# ── Data Validation
+# ── Data Validation ───────────────────────────────────────────────────────────
 pydantic==2.7.1
 pydantic-settings==2.2.1
 
-# ── Market Data & Technical Indicators
-# We loosen these so they can resolve the numpy 2.x requirement from pandas-ta
+# ── Market Data & Technical Indicators ────────────────────────────────────────
 yfinance==0.2.40
 pandas>=2.0.0
-numpy>=2.2.6
+# Fix: Force a 2.x compatible numpy that works with pandas-ta 0.4.71b
+numpy>=2.0.0
 pandas-ta==0.4.71b0
 
-# ── ML / LSTM (CPU-only version)
+# ── ML / LSTM (CPU-only version for 512MB RAM) ────────────────────────────────
+# Using the standard index for the CPU build to keep the build-size small
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.3.0+cpu
 
-# ── Statistical / NLP / Logging
+# ── Statistical / NLP / Logging ───────────────────────────────────────────────
 scipy>=1.13.0
 arch>=6.3.0
 vaderSentiment==3.3.2
