@@ -8,22 +8,20 @@ websockets==12.0
 pydantic==2.7.1
 pydantic-settings==2.2.1
 
-# ── Market Data
+# ── Market Data & Technical Indicators
+# We loosen these so they can resolve the numpy 2.x requirement from pandas-ta
 yfinance==0.2.40
-pandas==2.3.3
-numpy==1.26.4
-
-# ── Technical Indicators
-# This specific beta version requires Python 3.12+
+pandas>=2.0.0
+numpy>=2.2.6
 pandas-ta==0.4.71b0
 
-# ── ML / LSTM (Using CPU-only version for Render's RAM limits)
+# ── ML / LSTM (CPU-only version)
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.3.0+cpu
 
 # ── Statistical / NLP / Logging
-scipy==1.13.0
-arch==6.3.0
+scipy>=1.13.0
+arch>=6.3.0
 vaderSentiment==3.3.2
 feedparser==6.0.11
 cachetools==5.3.3
