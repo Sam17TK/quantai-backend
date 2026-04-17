@@ -15,6 +15,8 @@ def fetch_ohlcv(ticker: str, period: str = "2y") -> pd.DataFrame:
 
     try:
         # threads=False prevents CPU spikes that trigger Render's OOM killer
+        if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
         df = yf.download(
             ticker,
             period=period,
