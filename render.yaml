@@ -9,10 +9,12 @@ services:
     healthCheckPath: /health
     envVars:
       - key: DEBUG
-        value: false
+        value: "true" # Set to true initially to debug deployment issues
       - key: ALLOWED_ORIGINS
         value: '["*"]'
       - key: MC_PATHS
-        value: "2000"   # reduce on free tier (512 MB RAM)
+        value: "500"   # Reduced from 2000 to 500 for strict 512MB RAM limit
       - key: PYTHON_VERSION
         value: "3.11.0"
+      - key: LOGURU_LEVEL
+        value: "DEBUG"
