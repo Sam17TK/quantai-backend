@@ -10,13 +10,14 @@ pydantic-settings==2.2.1
 
 # ── Market Data
 yfinance==0.2.40
-pandas>=2.0.0
-numpy>=1.24.0,<2.0.0
+pandas==2.3.3
+numpy==1.26.4
 
 # ── Technical Indicators
+# This specific beta version requires Python 3.12+
 pandas-ta==0.4.71b0
 
-# ── ML / LSTM (CPU optimized for Render)
+# ── ML / LSTM (Using CPU-only version for Render's RAM limits)
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.3.0+cpu
 
