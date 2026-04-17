@@ -1,43 +1,30 @@
-# ── Web Framework ────────────────────────────────────────────────────────────
+# ── Web Framework
 fastapi==0.111.0
 uvicorn[standard]==0.30.1
 python-multipart==0.0.9
 websockets==12.0
 
-# ── Data Validation ───────────────────────────────────────────────────────────
+# ── Data Validation
 pydantic==2.7.1
 pydantic-settings==2.2.1
 
-# ── Market Data ───────────────────────────────────────────────────────────────
+# ── Market Data
 yfinance==0.2.40
-pandas==2.3.3
-numpy==1.26.4
+pandas>=2.0.0
+numpy>=1.24.0,<2.0.0
 
-# ── Technical Indicators ──────────────────────────────────────────────────────
+# ── Technical Indicators
 pandas-ta==0.4.71b0
 
-# ── ML / LSTM ─────────────────────────────────────────────────────────────────
-torch==2.3.0
-# For CUDA 12.1: pip install torch==2.3.0 --index-url https://download.pytorch.org/whl/cu121
+# ── ML / LSTM (CPU optimized for Render)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.3.0+cpu
 
-# ── Statistical / Monte Carlo ─────────────────────────────────────────────────
+# ── Statistical / NLP / Logging
 scipy==1.13.0
-arch==6.3.0        # GARCH(1,1); gracefully falls back to EWMA if absent
-
-# ── Sentiment & NLP ───────────────────────────────────────────────────────────
+arch==6.3.0
 vaderSentiment==3.3.2
 feedparser==6.0.11
-
-# ── Caching ───────────────────────────────────────────────────────────────────
 cachetools==5.3.3
-
-# ── Logging ───────────────────────────────────────────────────────────────────
 loguru==0.7.2
-
-# ── CORS / HTTP ───────────────────────────────────────────────────────────────
 httpx==0.27.0
-
-# ── Optional: Redis + Celery for task queue (uncomment for production) ────────
-# celery==5.4.0
-# redis==5.0.4
-# flower==2.0.1
